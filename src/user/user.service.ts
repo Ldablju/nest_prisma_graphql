@@ -22,7 +22,7 @@ export class UserService {
   findOne(id: number) {
     return this.prisma.user.findUnique({
       where: { id },
-      select: { name: true, id: true },
+      select: { name: true, id: true, posts: true },
     })
   }
 
