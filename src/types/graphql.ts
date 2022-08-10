@@ -8,51 +8,41 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export class CreatePostInput {
-    title: string;
-    desc: string;
-    authorId?: Nullable<number>;
+export class LoginUserInput {
+    email: string;
+    password: string;
 }
 
 export class CreateUserInput {
+    email: string;
     name: string;
+    password: string;
 }
 
-export class UpdateUserInput {
+export class Auth {
     id: number;
+    email: string;
     name: string;
-}
-
-export class Post {
-    id: number;
-    title: string;
-    desc: string;
 }
 
 export abstract class IQuery {
-    abstract post(id: number): Nullable<Post> | Promise<Nullable<Post>>;
+    abstract user(id: number): User | Promise<User>;
 
-    abstract users(): Nullable<User>[] | Promise<Nullable<User>[]>;
-
-    abstract user(id: number): Nullable<User> | Promise<Nullable<User>>;
+    abstract users(): User[] | Promise<User[]>;
 }
 
 export abstract class IMutation {
-    abstract createPost(createPostInput: CreatePostInput): Post | Promise<Post>;
+    abstract loginUser(loginUserInput: LoginUserInput): string | Promise<string>;
 
-    abstract removePost(id: number): Nullable<Post> | Promise<Nullable<Post>>;
+    abstract createUser(createUserInput: CreateUserInput): Auth | Promise<Auth>;
 
-    abstract createUser(createUserInput: CreateUserInput): User | Promise<User>;
-
-    abstract updateUser(updateUserInput: UpdateUserInput): User | Promise<User>;
-
-    abstract removeUser(id: number): Nullable<User> | Promise<Nullable<User>>;
+    abstract removeUser(): Nullable<User> | Promise<Nullable<User>>;
 }
 
 export class User {
     id: number;
-    name: string;
-    posts: Post[];
+    email?: Nullable<string>;
+    name?: Nullable<string>;
 }
 
 type Nullable<T> = T | null;

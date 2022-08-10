@@ -1,25 +1,14 @@
 type User {
   id: Int!
-  name: String!
-  posts: [Post!]!
-}
-
-input CreateUserInput {
-  name: String!
-}
-
-input UpdateUserInput {
-  id: Int!
-  name: String!
+  email: String
+  name: String
 }
 
 type Query {
-  users: [User]!
   user(id: Int!): User
+  users: [User!]!
 }
 
 type Mutation {
-  createUser(createUserInput: CreateUserInput!): User!
-  updateUser(updateUserInput: UpdateUserInput!): User!
-  removeUser(id: Int!): User
+  removeUser: User
 }

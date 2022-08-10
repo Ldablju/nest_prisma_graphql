@@ -1,33 +1,28 @@
+import { UseGuards } from '@nestjs/common';
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
-import { CreateUserInput, UpdateUserInput } from 'src/types/graphql';
+import { JwtAuthGuard } from 'src/auth/gql-auth.guard';
+import { CurrentUser } from 'src/user/user.decorator';
 import { UserService } from './user.service';
 
 @Resolver('User')
 export class UserResolver {
   constructor(private readonly userService: UserService) {}
 
-  @Mutation('createUser')
-  create(@Args('createUserInput') createUserInput: CreateUserInput) {
-    return this.userService.create(createUserInput);
-  }
-
-  @Query('users')
-  findAll() {
-    return this.userService.findAll();
-  }
-
   @Query('user')
+  @UseGuards(JwtAuthGuard)
   findOne(@Args('id') id: number) {
     return this.userService.findOne(id);
   }
 
-  @Mutation('updateUser')
-  update(@Args('updateUserInput') updateUserInput: UpdateUserInput) {
-    return this.userService.update(updateUserInput.id, updateUserInput);
+  @Query('users')
+  @UseGuards(JwtAuthGuard)
+  find(@CurrentUser() currentUser) {
+    return this.userService.findAll(currentUser);
   }
 
   @Mutation('removeUser')
-  remove(@Args('id') id: number) {
-    return this.userService.remove(id);
+  @UseGuards(JwtAuthGuard)
+  remove(@CurrentUser() currentUser) {
+    return this.userService.remove(currentUser.id);
   }
 }
