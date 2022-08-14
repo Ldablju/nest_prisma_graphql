@@ -11,13 +11,19 @@ export class UserResolver {
   @Query('user')
   @UseGuards(JwtAuthGuard)
   findOne(@Args('id') id: number) {
-    return this.userService.findOne(id);
+    return this.userService.findUserById(id);
   }
 
-  @Query('users')
+  @Query('findLove')
   @UseGuards(JwtAuthGuard)
   find(@CurrentUser() currentUser) {
-    return this.userService.findAll(currentUser);
+    return this.userService.findUser(currentUser);
+  }
+
+  @Mutation('changePassword')
+  @UseGuards(JwtAuthGuard)
+  changePassword(@CurrentUser() currentUser, @Args('password') password: string) {
+    return this.userService.changePassword(currentUser.id, password);
   }
 
   @Mutation('removeUser')

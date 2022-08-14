@@ -1,14 +1,15 @@
 type User {
   id: Int!
-  email: String
   name: String
+  location: Float
 }
 
 type Query {
   user(id: Int!): User
-  users: [User!]!
+  findLove: [User!]!
 }
 
 type Mutation {
-  removeUser: User
+  removeUser: String!
+  changePassword(password: String!): String!
 }

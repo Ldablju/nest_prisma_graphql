@@ -28,9 +28,7 @@ export class AuthService {
 
         
         return this.jwtService.sign({
-            id: user.id,
-            email: user.email,
-            name: user.name
+            id: user.id
         })
     }
 
@@ -44,14 +42,19 @@ export class AuthService {
 
         if(user)
             throw new BadRequestException(`Email already in use`)
-        
-        return this.prisma.user.create({
+
+
+        await this.prisma.user.create({
             data: {
                 email: createUserInput.email,
                 name: createUserInput.name,
-                password: hashPassword
+                password: hashPassword,
+                sex: createUserInput.sex,
+                location: createUserInput.lat + createUserInput.lng
             }
         })
+
+        return 'User was created successfully'
     }
 
 }

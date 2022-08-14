@@ -2,6 +2,7 @@ type Auth {
   id: Int!
   email: String!
   name: String!
+  sex: String!
 }
 
 input LoginUserInput {
@@ -13,6 +14,9 @@ input CreateUserInput {
     email: String!
     name: String!
     password: String!
+    sex: String!
+    lat: Float
+    lng: Float
 }
 
 
@@ -22,5 +26,5 @@ type Query {
 
 type Mutation {
   loginUser(loginUserInput: LoginUserInput!): String!
-  createUser(createUserInput: CreateUserInput!): Auth!
+  createUser(createUserInput: CreateUserInput!): String!
 }
